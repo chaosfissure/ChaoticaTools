@@ -33,6 +33,8 @@ The final file that is generated is `<input_file_name>_xaosed.chaos`
 This expects you to copy the XML from Chaotica into your clipboard via `Edit->Copy XML to Clipboard`.
 It will then parse through the file you have, attempt to approximate the pallete entries into HSV nodes, and insert the gradient into your clipboard.  This gradient is possible to open and edit in Ultrafractal.
 
+At the moment, this does is not compatible with Chaotica's palettes, and thus requires the parameters to include a gradient.
+
 # varsearch
 
 This will recursively traverse through the root directory of the file and locate all chaotica files containing the variation you specify on the command line.
