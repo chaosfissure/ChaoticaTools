@@ -2,7 +2,7 @@ import sys
 import os
 
 def isCorrect(filename,directory):
-	return raw_input('Is ' + filename + ' in ' + directory + ' the correct file? (y/n) =>').lower() == "y"
+	return input('Is ' + filename + ' in ' + directory + ' the correct file? (y/n) =>').lower() == "y"
 
 def ignoreCaseCount(searchInThisString,searchForTerm):
 	return searchForTerm.lower() in searchInThisString.lower()
@@ -14,14 +14,17 @@ def dirSearch(searchterm, modificationFunc):
 	folders = [x for x in ls if os.path.isdir(x)]
 	files   = [x for x in ls if x.endswith('.chaos') and not os.path.isdir(x)]
 		
+	folders.sort(key=os.path.getmtime, reverse=True)
+		
 	for f in files:
 		if ignoreCaseCount(f,searchterm) and isCorrect(f, os.getcwd()):
 			modificationFunc(os.path.join(os.getcwd(), f))
 			return True
+			
 							
 	cwd = os.getcwd()
 	for folder in folders:
-		print "Searching in", folder
+		print("Searching in", folder)
 		os.chdir(os.path.join(cwd,folder))
 		result = dirSearch(searchterm, modificationFunc)
 		os.chdir(cwd)
@@ -81,20 +84,20 @@ def modificationFunc(filename):
 		# Check the name of the iterator
 		checkNameWith = 'Iterator ' + str(i+1)
 		if elem[0] != checkNameWith:
-			print 'Iterator', i, 'name not consistent.  Remaking!'
-			print '\t', checkNameWith, elem[0]
+			print('Iterator', i, 'name not consistent.  Remaking!')
+			print('\t', checkNameWith, elem[0])
 			remake = True
 			break
 		for j, eachIter in enumerate(elem[1:]):
 			requireIter = 'Iterator ' + str(j+1)
 			if requireIter != eachIter:
-				print 'Weight on iter', i, 'not consistent. Remaking!'
-				print '\t', requireIter, eachIter
+				print('Weight on iter', i, 'not consistent. Remaking!')
+				print('\t', requireIter, eachIter)
 				remake = True
 				break
 				
 	if remake:
-		print 'Remaking chaos file with consistent iter/weight combinations for editing.'
+		print('Remaking chaos file with consistent iter/weight combinations for editing.')
 		with open(rewritten, 'w') as f:
 			
 			iterOn = 0
@@ -120,13 +123,13 @@ def modificationFunc(filename):
 				else:
 					f.write(line)
 		
-		print 'Please reload the file in chaotica to ensure you specified the correct iterators to link!'
+		print('Please reload the file in chaotica to ensure you specified the correct iterators to link!')
 		exit(0)
 		
 	else:
 		
 		mode = 'using'
-		term = raw_input('Link how?  [copy=from,to OR using=a,b,c] => ')
+		term = input('Link how?  [copy=from,to OR using=a,b,c] => ')
 		onlyUse = [x for x in term[term.index('=')+1:].strip().split(',')]
 		
 		if 'copy' in term:
@@ -140,10 +143,10 @@ def modificationFunc(filename):
 					weightvals[i][posTo] = weightvals[i][posFrom]
 					
 			for j in weightvals:
-				print j
+				print(j)
 			
 		onlyUse = ['Iterator ' + str(x) for x in onlyUse]
-		print 'Using', onlyUse
+		print('Using', onlyUse)
 		
 		with open(filename.replace('.chaos', '_xaosed.chaos'), 'w') as f:
 			
@@ -188,4 +191,4 @@ def modificationFunc(filename):
 				
 if __name__ == '__main__':
 	if not dirSearch(' '.join(sys.argv[1:]), modificationFunc):
-		print 'File was not found.'
+		print('File was not found.')

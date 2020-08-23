@@ -1,4 +1,4 @@
-from Tkinter import Tk
+from tkinter import Tk
 import os
 import sys
 import random
@@ -60,7 +60,7 @@ def floatRGBToHSV(*args):
 
 	
 def groupby(l, n):
-	return [l[i:i+n] for i in xrange(0, len(l), n)]
+	return [l[i:i+n] for i in range(0, len(l), n)]
 	
 def RGBFloatToInt(r, g, b):
 	
@@ -93,7 +93,7 @@ def approximateAndSimplify(rgbData):
 	run = [0,0,0,0]
 	smallValues = [hsv[0][pos],hsv[0][h],hsv[0][s],hsv[0][v]]
 	
-	minstep = 0.05
+	minstep = 0.1
 	
 	itemOn = h
 	while itemOn < 4:
@@ -135,17 +135,17 @@ def approximateAndSimplify(rgbData):
 					
 					if itemOn == h:
 						if run[h] > 1:
-							h_positions.append((element+(element+run[h]))/2)
+							h_positions.append((element+(element+run[h]))//2)
 						h_positions.append(element+run[h])
 						run[h] = 0
 					elif itemOn == s:
 						if run[s] > 1:
-							s_positions.append((element+(element+run[s]))/2)
+							s_positions.append((element+(element+run[s]))//2)
 						s_positions.append(element+run[s])
 						run[s] = 0
 					else:
 						if run[v] > 1:
-							v_positions.append((element+(element+run[v]))/2)
+							v_positions.append((element+(element+run[v]))//2)
 						v_positions.append(element+run[v])
 						run[v] = 0
 						
@@ -247,10 +247,10 @@ def extract_gradient(chaosData):
 										
 			values = groupby([float(value) for value in useline.split(' ')], 3)
 		
-			print values
+			print(values)
 		
 	except:
-		print 'Error.  Unable to find Chaos data in clipboard.'
+		print('Error.  Unable to find Chaos data in clipboard.')
 		exit()
 			
 
@@ -284,5 +284,7 @@ if __name__ == '__main__':
 	r.withdraw()
 	clipboard = r.clipboard_get()
 	gradient = extract_gradient(clipboard)	
+	print(gradient)
 	r.clipboard_append(gradient)
+	
 		
